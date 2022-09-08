@@ -17,7 +17,7 @@ export type Game = {
 	getGameBoard: BoardGetter,
 	setPlayers: PlayersSetter,
 	getPlayers: PlayersGetter,
-	init: (boardContainer: HTMLElement) => void
+	init: (boardContainer: HTMLElement, players: Player[]) => void
 }
 
 export type Setter<T> = (value: T) => void;
@@ -33,6 +33,16 @@ const game: Game = (function() {
 	let board: GameBoard;
 	let players: Player[];
 	let boardParent: HTMLElement;
+	let currentPlayer: Player;
+
+	let nextPlayer = (curr: Player) => {
+		const currIndex = players.findIndex(player => player === curr);
+		if (currIndex === -1 || currIndex + 1 === players.length) {
+			return players[0];
+		}
+
+		return players[currIndex + 1];
+	}
 
 	return {
 		setGameBoard: (newBoard) => {
@@ -47,20 +57,33 @@ const game: Game = (function() {
 		getPlayers: () => {
 			return players;
 		},
-		init: (boardContainer) => {
+		init: (boardContainer, newPlayers) => {
 			if (!boardContainer) return;
-			
+			if (!newPlayers) return;
+
+			players = newPlayers;
+			currentPlayer = players[0];
+
 
 			board = {
 				cells: Array(9).fill({value: players[1].mark}),
 				render: (container) => {
-					let html = "";
+					let cells = [];
 					for (let i = 0; i < 3; i++) {
 						for (let j = 0; j < 3; j++) {
-							html += `<div class="cell" data-cell-index="${i * 3 + j}"></div>`		
+							const cell = document.createElement("div");
+							cell.classList.add("cell");
+							cell.setAttribute("data-cell-index", String(i * 3 + j));
+							cell.addEventListener("click", (event) => {
+								const target = event.target as HTMLElement; 
+								if (target.textContent) return;
+								target.textContent = currentPlayer?.mark;
+								currentPlayer = nextPlayer(currentPlayer);
+							})
+							cells.push(cell);
 						}
 					}
-					container.innerHTML = html;
+					container.append(...cells);
 				}
 			}
 
