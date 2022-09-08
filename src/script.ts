@@ -1,6 +1,8 @@
-import {game} from "./game.js";
+import {game, GameBoard, Player} from "./game.js";
 
-console.log(game);
+const boardContainer = document.querySelector(".main__board-container") as HTMLElement;
 
-game.setGameBoard({cells: []});
-console.log(game.getGameBoard());
+const players: Player[] = [{name: "player1", mark: "X"}, {name: "player2", mark: "S"}];
+
+game.setPlayers(players)
+game.init(boardContainer);
