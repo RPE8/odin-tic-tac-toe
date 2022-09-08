@@ -14,4 +14,21 @@ playerButton.addEventListener("click", () => {
 	game.start();
 });
 
+aiButton.addEventListener("click", () => {
+	game.setPlayers([
+		{name: "Player 1", mark: "X"},
+		{name: "AI", mark: "O", notify: () => {
+			const cells = Array.from(document.querySelectorAll(".cell")).filter(cell => !cell.textContent);
+			if (cells.length) {
+				const el = cells[Math.floor((Math.random()*cells.length))] as HTMLElement;
+				el.click();
+			}
+		}}
+	]);
+	game.start();
+});
+
+
+// document.getElementById('elementID').click();
+
 game.init(boardContainer, stateContainer);
