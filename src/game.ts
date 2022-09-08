@@ -10,6 +10,7 @@ export type GameBoard = {
 export type Player = {
 	name: string,
 	mark: string,
+	notify?: (player: Player) => void
 }
 
 export type Game = {
@@ -41,7 +42,8 @@ const game: Game = (function() {
 			return players[0];
 		}
 
-		return players[currIndex + 1];
+		const nextPlayer = players[currIndex + 1];
+		return nextPlayer;
 	}
 
 	return {
@@ -79,6 +81,7 @@ const game: Game = (function() {
 								if (target.textContent) return;
 								target.textContent = currentPlayer?.mark;
 								currentPlayer = nextPlayer(currentPlayer);
+								currentPlayer?.notify?.(currentPlayer);
 							})
 							cells.push(cell);
 						}
@@ -88,6 +91,7 @@ const game: Game = (function() {
 			}
 
 			board.render(boardContainer);
+			currentPlayer?.notify?.(currentPlayer);
 		}
 		
 	};

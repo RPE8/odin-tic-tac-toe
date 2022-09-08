@@ -37,6 +37,15 @@ html, body, .container {
 	gap: 1rem;
 }
 
+.main__state {
+	background-color: lightgoldenrodyellow;
+	max-height: 3rem;
+	height: 4rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
 .settings-button {
 	padding: 1rem;
 	width: 5rem;

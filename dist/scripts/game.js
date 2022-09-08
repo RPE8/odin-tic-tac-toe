@@ -9,7 +9,8 @@ const game = (function () {
         if (currIndex === -1 || currIndex + 1 === players.length) {
             return players[0];
         }
-        return players[currIndex + 1];
+        const nextPlayer = players[currIndex + 1];
+        return nextPlayer;
     };
     return {
         setGameBoard: (newBoard) => {
@@ -46,6 +47,7 @@ const game = (function () {
                                     return;
                                 target.textContent = currentPlayer?.mark;
                                 currentPlayer = nextPlayer(currentPlayer);
+                                currentPlayer?.notify?.(currentPlayer);
                             });
                             cells.push(cell);
                         }
@@ -54,6 +56,7 @@ const game = (function () {
                 }
             };
             board.render(boardContainer);
+            currentPlayer?.notify?.(currentPlayer);
         }
     };
 })();
