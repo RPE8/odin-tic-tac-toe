@@ -6,7 +6,7 @@
   "name": "odin-tic-tac-toe",
   "description": "Part of \"The Odin Project\": Tic Tac Toe",
   "version": "1.0.0",
-  "main": "./dist/index.html",
+  "main": "./index.html",
   "scripts": {
     "build": "tsc --build",
 	"watch": "tsc --watch"
